@@ -74,3 +74,8 @@ with tab4:
     st.write("### Coverage Plot")
     st.image('coverage_plot.svg')
     st.caption("Range of predictions with confidence intervals.")
+
+
+password_guess = st.text_input("What is the Password?")
+if password_guess != st.secrets["puneet"]:
+    st.stop()
