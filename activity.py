@@ -3,6 +3,7 @@ import streamlit as st
 import pandas as pd
 import pickle
 import warnings
+from mapie.regression import MapieRegressor
 warnings.filterwarnings('ignore')
 
 st.title('Graduate Admission Predictor 🌟') 
@@ -14,7 +15,7 @@ st.write("This app uses multiple inputs to predict the probability of admission 
 
 # Load the pre-trained model from the pickle file
 dt_pickle = open('reg_admission.pickle', 'rb') 
-clf = pickle.load(dt_pickle) 
+reg = pickle.load(dt_pickle) 
 dt_pickle.close()
 
 # Create a sidebar for input collection
@@ -39,11 +40,11 @@ else:
 
 if Predict:
     user_data = [[GRE, TOEFL, Rating, SOP, LOR, CGPA, Research_No, Research_Yes]]
-    prediction = clf.predict(user_data,alpha=0.1)
+    prediction = reg.predict(user_data,alpha=0.1)
     st.subheader("**Predicting Admission Chance**")
-    st.success('**Predicted Admission Probability: {:.2f}%**'.format(prediction[0]*100))
+    st.success('**Predicted Admission Probability: {:.2f}%**'.format(int(prediction[0])*100))
     st.write("With a {:.2f}% confidence level:".format(90))
-    st.write("**Prediction Interval:** [{:.2f}%, {:.2f}%]".format(prediction[1][0, 0]*100, prediction[1][0, 1]*100))
+    st.write("**Prediction Interval:** [{:.2f}%, {:.2f}%]".format(int(prediction[1][0, 0])*100, int(prediction[1][0, 1])*100))
 
 
 # Showing additional items in tabs
